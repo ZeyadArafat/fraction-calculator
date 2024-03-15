@@ -18,108 +18,120 @@ int main(){
     string operation, fTerm, sTerm, fNominator, fDenominator, sNominator, sDenominator;
     string operand;
 
-    getline(cin, operand);
-    regex calcRegex(R"(-?\s*[0-9]+\s*[/]?\s*-?\s*[0-9]*\s*[\+\-\*\/]{1}\s*-?\s*[0-9]+\s*[/]?\s*-?\s*[0-9]*\s*)");
+    cout << "|| FRACTION CALCULATOR ||" << endl << endl;
 
-    while (not regex_match(operand, regex(calcRegex))){
-        cout << "Invalid operand, Try again." << endl;
+    while (true){
+        cout << "Please enter a rational number operations or (exit)" << endl;
+        cout << "->";
         getline(cin, operand);
-    }
 
-    operand = strip(operand);
+        if (operand == "exit"){
+            break;
+        }
+        else{
+            regex calcRegex(R"(-?\s*[0-9]+\s*[/]?\s*-?\s*[0-9]*\s*[\+\-\*\/]{1}\s*-?\s*[0-9]+\s*[/]?\s*-?\s*[0-9]*\s*)");
 
-    // First nominator sign
-    int i = 0;
-    if (operand[0] == '-'){
-        fTermSign = -1;
-        i++;
-    }
-
-    // First nominator
-    while (isdigit(operand[i])){
-        fNominator += operand[i];
-        i++;
-    }
-
-    // first denominator
-    if (operand[i] == '/'){
-        i++;
-        if (operand[i] == '-'){
-            if (fTermSign == -1){
-                fTermSign = 1;
+            while (not regex_match(operand, regex(calcRegex))){
+                cout << "Invalid operand, Try again." << endl;
+                getline(cin, operand);
             }
-            else{
+
+            operand = strip(operand);
+
+            // First nominator sign
+            int i = 0;
+            if (operand[0] == '-'){
                 fTermSign = -1;
+                i++;
             }
-            i++;
-        }
 
-        while(isdigit(operand[i])){
-            fDenominator += operand[i];
-            i++;
-        }
-    }
-    else{
-        fDenominator = "1";
-    }
+            // First nominator
+            while (isdigit(operand[i])){
+                fNominator += operand[i];
+                i++;
+            }
 
-    // Operation
-    if (operand[i] == '+'){
-        operation = "+";
-        i++;
-    }
+            // first denominator
+            if (operand[i] == '/'){
+                i++;
+                if (operand[i] == '-'){
+                    if (fTermSign == -1){
+                        fTermSign = 1;
+                    }
+                    else{
+                        fTermSign = -1;
+                    }
+                    i++;
+                }
 
-    else if (operand[i] == '-'){
-        operation = "-";
-        i++;
-    }
-
-    else if (operand[i] == '*'){
-        operation = "*";
-        i++;
-    }
-
-    else if (operand[i] == '/'){
-        operation = "/";
-        i++;
-    }
-
-    // Second nominator sign
-    if (operand[i] == '-'){
-        sTermSign = -1;
-        i++;
-    }
-
-    // Second nominator
-    while (isdigit(operand[i])){
-        sNominator += operand[i];
-        i++;
-    }
-
-    // second denominator
-    if (operand[i] == '/'){
-        i++;
-        if (operand[i] == '-'){
-            if (sTermSign == -1){
-                sTermSign = 1;
+                while(isdigit(operand[i])){
+                    fDenominator += operand[i];
+                    i++;
+                }
             }
             else{
-                sTermSign = -1;
+                fDenominator = "1";
             }
-            i++;
-        }
 
-        while(isdigit(operand[i])){
-            sDenominator += operand[i];
-            i++;
+            // Operation
+            if (operand[i] == '+'){
+                operation = "+";
+                i++;
+            }
+
+            else if (operand[i] == '-'){
+                operation = "-";
+                i++;
+            }
+
+            else if (operand[i] == '*'){
+                operation = "*";
+                i++;
+            }
+
+            else if (operand[i] == '/'){
+                operation = "/";
+                i++;
+            }
+
+            // Second nominator sign
+            if (operand[i] == '-'){
+                sTermSign = -1;
+                i++;
+            }
+
+            // Second nominator
+            while (isdigit(operand[i])){
+                sNominator += operand[i];
+                i++;
+            }
+
+            // second denominator
+            if (operand[i] == '/'){
+                i++;
+                if (operand[i] == '-'){
+                    if (sTermSign == -1){
+                        sTermSign = 1;
+                    }
+                    else{
+                        sTermSign = -1;
+                    }
+                    i++;
+                }
+
+                while(isdigit(operand[i])){
+                    sDenominator += operand[i];
+                    i++;
+                }
+            }
+            else{
+                sDenominator = "1";
+            }
+
+            cout << fTermSign << " " << fNominator << " " << fDenominator << " " << operation << " " << sTermSign << " " <<
+                 sNominator << " " << sDenominator << endl;
         }
     }
-    else{
-        sDenominator = "1";
-    }
-
-    cout << fTermSign << " " << fNominator << " " << fDenominator << " " << operation << " " << sTermSign << " " <<
-        sNominator << " " << sDenominator << endl;
 
     return 0;
 }
