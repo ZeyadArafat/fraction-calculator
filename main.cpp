@@ -1,63 +1,123 @@
-#include <iostream>
-#include <string>
+# include <bits/stdc++.h>
+
 using namespace std;
 
-string strip(string sentence){ // to remove the spaces in the text in the route cipher encryption .
-    string strippedSentence;
-    for(int i = 0; i < sentence.length(); i++){
-        if(sentence[i] != ' '){
-            strippedSentence += sentence[i];
+string strip(const string& calc){
+    string stripped;
+    for (char i : calc){
+        if(not isspace(i)){
+            stripped += i;
         }
     }
-    return strippedSentence;
-}
-
-
-bool is_number(char z){
-    if((z=='0') || (z=='1') || (z=='2') || (z=='3') || (z=='4') || (z=='5') || (z=='6') || (z=='7') || (z=='8') || (z=='9')) {return true;}
-    else{return false;}
+    return stripped;
 }
 
 
 int main(){
+    int fTermSign = 1, sTermSign = 1;
+    string operation, fTerm, sTerm, fNominator, fDenominator, sNominator, sDenominator;
+    string operand;
 
+    getline(cin, operand);
+    regex calcRegex(R"(-?\s*[0-9]+\s*[/]?\s*-?\s*[0-9]*\s*[\+\-\*\/]{1}\s*-?\s*[0-9]+\s*[/]?\s*-?\s*[0-9]*\s*)");
 
-    string lineOfOperation, operation, result, currentTerm;
-    int firstNominator, secondNominator, firstDinominator, secondDinominator, divisionCounter, termNumber = 0;
-    //cin.ignore();
-    getline(cin, lineOfOperation);
-    lineOfOperation = strip(lineOfOperation) + "$";
-    for(int i; i < lineOfOperation.length(); i++){
-        if (lineOfOperation[i] == '/') divisionCounter++;
-        else if (lineOfOperation[i] == '+') operation = '+';
-        else if (lineOfOperation[i] == '-') operation = '-';
-        else if (lineOfOperation[i] == '*') operation = '*';
-        if (divisionCounter == 3) operation = '/';
-        if(is_number(lineOfOperation[i])) currentTerm += lineOfOperation[i];
-
-
-        else if(!(is_number(lineOfOperation[i]))){
-            if (termNumber == 0){
-                firstNominator = stoi(currentTerm);
-                termNumber++;
-                currentTerm = "";
-            }
-            else if (termNumber == 1){
-                firstDinominator = stoi(currentTerm);
-                termNumber++;
-                currentTerm = "";
-            }
-            else if (termNumber == 2){
-                secondNominator = stoi(currentTerm);
-                termNumber++;
-                currentTerm = "";
-            }
-            else if (termNumber == 3){
-                secondDinominator = stoi(currentTerm);
-            }
-        }
-
+    while (not regex_match(operand, regex(calcRegex))){
+        cout << "Invalid operand, Try again." << endl;
+        getline(cin, operand);
     }
 
+    // First nominator sign
+    int i = 0;
+    if (operand[0] == '-'){
+        fTermSign = -1;
+        i++;
+    }
+
+    // First nominator
+    while (isdigit(operand[i])){
+        fNominator += operand[i];
+        i++;
+    }
+
+    // first denominator
+    if (operand[i] == '/'){
+        i++;
+        if (operand[i] == '-'){
+            if (fTermSign == -1){
+                fTermSign = 1;
+            }
+            else{
+                fTermSign = -1;
+            }
+            i++;
+        }
+
+        while(isdigit(operand[i])){
+            fDenominator += operand[i];
+            i++;
+        }
+    }
+    else{
+        fDenominator = "1";
+    }
+
+    // Operation
+    if (operand[i] == '+'){
+        operation = "+";
+        i++;
+    }
+
+    else if (operand[i] == '-'){
+        operation = "-";
+        i++;
+    }
+
+    else if (operand[i] == '*'){
+        operation = "*";
+        i++;
+    }
+
+    else if (operand[i] == '/'){
+        operation = "/";
+        i++;
+    }
+
+    // Second nominator sign
+    if (operand[i] == '-'){
+        sTermSign = -1;
+        i++;
+    }
+
+    // Second nominator
+    while (isdigit(operand[i])){
+        sNominator += operand[i];
+        i++;
+    }
+
+    // second denominator
+    if (operand[i] == '/'){
+        i++;
+        if (operand[i] == '-'){
+            if (sTermSign == -1){
+                sTermSign = 1;
+            }
+            else{
+                sTermSign = -1;
+            }
+            i++;
+        }
+
+        while(isdigit(operand[i])){
+            sDenominator += operand[i];
+            i++;
+        }
+    }
+    else{
+        sDenominator = "1";
+    }
+
+    cout << fTermSign << " " << fNominator << " " << fDenominator << " " << operation << " " << sTermSign << " " <<
+        sNominator << " " << sDenominator << endl;
+    
     return 0;
 }
