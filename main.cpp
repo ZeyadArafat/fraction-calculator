@@ -1,5 +1,6 @@
 # include <bits/stdc++.h>
-
+# include <string>
+# include <cmath>
 using namespace std;
 
 string strip(const string& calc){
@@ -131,6 +132,36 @@ int main(){
             cout << fTermSign << " " << fNominator << " " << fDenominator << " " << operation << " " << sTermSign << " " <<
                  sNominator << " " << sDenominator << endl;
         }
+        if (operation == "*"){
+            int resultNominator, resultDinominator;
+            resultNominator = fTermSign * stoi(fNominator) * stoi(sNominator);
+            resultDinominator = sTermSign * stoi(fDenominator) * stoi(sDenominator);
+            for (int i = min(abs(resultNominator), abs(resultDinominator)); i > 1; i--){
+                if ((resultNominator % i == 0) and (resultDinominator % i == 0)){
+                    resultNominator = resultNominator / i;
+                    resultDinominator = resultDinominator / i;
+                    break;
+                }
+            }
+            cout << "result: " << resultNominator << "/" << resultDinominator << endl;
+
+        }
+        else if (operation == "/"){
+             int resultNominator, resultDinominator;
+            resultNominator = fTermSign * stoi(fNominator) * stoi(sDenominator);
+            resultDinominator = sTermSign * stoi(fDenominator) * stoi(sNominator);
+            for (int i = min(abs(resultNominator), abs(resultDinominator)); i > 1; i--){
+                if ((resultNominator % i == 0) and (resultDinominator % i == 0)){
+                    resultNominator = resultNominator / i;
+                    resultDinominator = resultDinominator / i;
+                    break;
+                }
+            }
+            cout << "result: " << resultNominator << "/" << resultDinominator << endl;
+
+        }
+
+
     }
 
     return 0;
