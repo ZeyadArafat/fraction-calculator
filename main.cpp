@@ -13,6 +13,40 @@ string strip(const string& calc){
     return stripped;
 }
 
+void summation(int sign1,int sign2,string nomi_1, string denomi_1,string nomi_2,string denomi_2){
+    int nomi, deno ;
+    nomi = ((stoi(nomi_1) * stoi(denomi_2)*sign1)) + ((stoi(nomi_2) * stoi(denomi_1)*sign2));
+    deno = (stoi(denomi_1) * stoi(denomi_2));
+    if (deno == 0) {
+        cerr << "Error: Division by zero" << endl;
+    }
+    // Find the greatest common divisor
+    int gcd = __gcd(nomi, deno);
+
+    // Simplify the fraction
+    nomi /= gcd;
+    deno /= gcd;
+
+    cout << "result is  : "<< nomi << "/" << deno << endl;
+}
+
+void subtraction(int sign1,int sign2,string nomi_1, string denomi_1,string nomi_2,string denomi_2){
+    int nomi, deno ;
+    nomi = ((stoi(nomi_1) * stoi(denomi_2)*sign1)) - ((stoi(nomi_2) * stoi(denomi_1)*sign2));
+    deno = (stoi(denomi_1) * stoi(denomi_2));
+    if (deno == 0) {
+        cerr << "Error: Division by zero" << endl;
+    }
+    // Find the greatest common divisor
+    int gcd = __gcd(nomi, deno);
+
+    // Simplify the fraction
+    nomi /= gcd;
+    deno /= gcd;
+
+    cout << "result is  : "<< nomi << "/" << deno << endl;
+}
+
 
 int main(){
     int fTermSign = 1, sTermSign = 1;
@@ -129,8 +163,6 @@ int main(){
                 sDenominator = "1";
             }
 
-            cout << fTermSign << " " << fNominator << " " << fDenominator << " " << operation << " " << sTermSign << " " <<
-                 sNominator << " " << sDenominator << endl;
         }
         if (operation == "*"){
             int resultNominator, resultDinominator;
@@ -147,7 +179,7 @@ int main(){
 
         }
         else if (operation == "/"){
-             int resultNominator, resultDinominator;
+            int resultNominator, resultDinominator;
             resultNominator = fTermSign * stoi(fNominator) * stoi(sDenominator);
             resultDinominator = sTermSign * stoi(fDenominator) * stoi(sNominator);
             for (int i = min(abs(resultNominator), abs(resultDinominator)); i > 1; i--){
@@ -160,7 +192,16 @@ int main(){
             cout << "result: " << resultNominator << "/" << resultDinominator << endl;
 
         }
+        else if (operation == "+"){
+            summation(fTermSign,sTermSign,fNominator,fDenominator,sNominator,sDenominator);
 
+        }
+        else if (operation == "-"){
+            subtraction(fTermSign,sTermSign,fNominator,fDenominator,sNominator,sDenominator);
+            
+        }
+        else
+        continue;
 
     }
 
