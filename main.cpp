@@ -26,6 +26,8 @@ int main(){
         getline(cin, operand);
     }
 
+    operand = strip(operand);
+
     // First nominator sign
     int i = 0;
     if (operand[0] == '-'){
@@ -118,6 +120,6 @@ int main(){
 
     cout << fTermSign << " " << fNominator << " " << fDenominator << " " << operation << " " << sTermSign << " " <<
         sNominator << " " << sDenominator << endl;
-    
+
     return 0;
 }
