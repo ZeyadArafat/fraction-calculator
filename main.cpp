@@ -24,15 +24,15 @@ void summation(int sign1, int sign2, const string& nominator1, const string& den
     }
 
     nominator = ((stoi(nominator1) * stoi(denominator2) * sign1)) +
-            ((stoi(nominator2) * stoi(denominator1) * sign2));
+                ((stoi(nominator2) * stoi(denominator1) * sign2));
     denominator = (stoi(denominator1) * stoi(denominator2));
 
     // Find the greatest common divisor
-    int gcd = __gcd(nominator, denominator);
+    int comn_factor = __gcd(nominator, denominator);
 
     // Simplify the fraction
-    nominator /= gcd;
-    denominator /= gcd;
+    nominator /= comn_factor;
+    denominator /= comn_factor;
 
     if (denominator == 1){
         cout << "result is: " << nominator << endl << endl;
@@ -53,15 +53,15 @@ void subtraction(int sign1, int sign2, const string& nominator1, const string& d
     }
 
     nominator = ((stoi(nominator1) * stoi(denominator2) * sign1)) -
-            ((stoi(nominator2) * stoi(denominator1) * sign2));
+                ((stoi(nominator2) * stoi(denominator1) * sign2));
     denominator = (stoi(denominator1) * stoi(denominator2));
 
     // Find the greatest common divisor
-    int gcd = __gcd(nominator, denominator);
+    int comn_factor = __gcd(nominator, denominator);
 
     // Simplify the fraction
-    nominator /= gcd;
-    denominator /= gcd;
+    nominator /= comn_factor;
+    denominator /= comn_factor;
 
     if (denominator == 1){
         cout << "result is: " << nominator << endl << endl;
