@@ -1,7 +1,7 @@
 # include <bits/stdc++.h>
-# include <string>
-# include <cmath>
+
 using namespace std;
+
 
 string strip(const string& calc){
     string stripped;
@@ -13,62 +13,147 @@ string strip(const string& calc){
     return stripped;
 }
 
-void summation(int sign1,int sign2,string nomi_1, string denomi_1,string nomi_2,string denomi_2){
-    int nomi, deno ;
-    nomi = ((stoi(nomi_1) * stoi(denomi_2)*sign1)) + ((stoi(nomi_2) * stoi(denomi_1)*sign2));
-    deno = (stoi(denomi_1) * stoi(denomi_2));
-    if (deno == 0) {
-        cerr << "Error: Division by zero" << endl;
+
+void summation(int sign1, int sign2, const string& nominator1, const string& denominator1,
+               const string& nominator2, const string& denominator2){
+
+    int nominator, denominator;
+    if (denominator1 == "0" || denominator2 == "0"){
+        cout << "Error: Division by zero." << endl << endl;
+        return;
     }
+
+    nominator = ((stoi(nominator1) * stoi(denominator2) * sign1)) +
+            ((stoi(nominator2) * stoi(denominator1) * sign2));
+    denominator = (stoi(denominator1) * stoi(denominator2));
+
     // Find the greatest common divisor
-    int gcd = __gcd(nomi, deno);
+    int gcd = __gcd(nominator, denominator);
 
     // Simplify the fraction
-    nomi /= gcd;
-    deno /= gcd;
+    nominator /= gcd;
+    denominator /= gcd;
 
-    cout << "result is  : "<< nomi << "/" << deno << endl;
+    if (denominator == 1){
+        cout << "result is: " << nominator << endl << endl;
+    }
+    else{
+        cout << "result is: " << nominator << "/" << denominator << endl << endl;
+    }
 }
 
-void subtraction(int sign1,int sign2,string nomi_1, string denomi_1,string nomi_2,string denomi_2){
-    int nomi, deno ;
-    nomi = ((stoi(nomi_1) * stoi(denomi_2)*sign1)) - ((stoi(nomi_2) * stoi(denomi_1)*sign2));
-    deno = (stoi(denomi_1) * stoi(denomi_2));
-    if (deno == 0) {
-        cerr << "Error: Division by zero" << endl;
+
+void subtraction(int sign1, int sign2, const string& nominator1, const string& denominator1,
+                 const string& nominator2, const string& denominator2){
+    int nominator, denominator ;
+
+    if (denominator1 == "0" || denominator2 == "0"){
+        cout << "Error: Division by zero." << endl;
+        return;
     }
+
+    nominator = ((stoi(nominator1) * stoi(denominator2) * sign1)) -
+            ((stoi(nominator2) * stoi(denominator1) * sign2));
+    denominator = (stoi(denominator1) * stoi(denominator2));
+
     // Find the greatest common divisor
-    int gcd = __gcd(nomi, deno);
+    int gcd = __gcd(nominator, denominator);
 
     // Simplify the fraction
-    nomi /= gcd;
-    deno /= gcd;
+    nominator /= gcd;
+    denominator /= gcd;
 
-    cout << "result is  : "<< nomi << "/" << deno << endl;
+    if (denominator == 1){
+        cout << "result is: " << nominator << endl << endl;
+    }
+    else{
+        cout << "result is: " << nominator << "/" << denominator << endl << endl;
+    }
+}
+
+
+void multiplication(int sign1, int sign2, const string& nominator1, const string& denominator1,
+                    const string& nominator2, const string& denominator2){
+    int nominator, denominator;
+
+    if (denominator1 == "0" || denominator2 == "0"){
+        cout << "Error: Division by zero." << endl << endl;
+        return;
+    }
+
+    nominator = sign1 * stoi(nominator1) * stoi(nominator2);
+    denominator = sign2 * stoi(denominator1) * stoi(denominator2);
+
+    for (int i = min(abs(nominator), abs(denominator)); i > 1; i--){
+        if ((nominator % i == 0) and (denominator % i == 0)){
+            nominator = nominator / i;
+            denominator = denominator / i;
+            break;
+        }
+    }
+
+    if (denominator == 1){
+        cout << "result: " << nominator << endl << endl;
+    }
+    else {
+        cout << "result: " << nominator << "/" << denominator << endl << endl;
+    }
+}
+
+
+void division(int sign1, int sign2, const string& nominator1, const string& denominator1,
+              const string& nominator2, const string& denominator2){
+    int nominator, denominator;
+
+    if (denominator1 == "0" || denominator2 == "0"){
+        cout << "Error: Division by zero." << endl << endl;
+        return;
+    }
+
+    nominator = sign1 * stoi(nominator1) * stoi(denominator2);
+    denominator = sign2 * stoi(denominator1) * stoi(nominator2);
+
+    for (int i = min(abs(nominator), abs(denominator)); i > 1; i--){
+        if ((nominator % i == 0) and (denominator % i == 0)){
+            nominator = nominator / i;
+            denominator = denominator / i;
+            break;
+        }
+    }
+
+    if (denominator == 1){
+        cout << "result: " << nominator << endl << endl;
+    }
+    else {
+        cout << "result: " << nominator << "/" << denominator << endl << endl;
+    }
 }
 
 
 int main(){
-    int fTermSign = 1, sTermSign = 1;
-    string operation, fTerm, sTerm, fNominator, fDenominator, sNominator, sDenominator;
-    string operand;
-
+    int stTermSign = 1, ndTermSign = 1;
+    string operation, nominator1, denominator1, nominator2, denominator2;
     cout << "|| FRACTION CALCULATOR ||" << endl << endl;
 
     while (true){
+        operation = "", nominator1 = "", denominator1 = "", nominator2 = "", denominator2 = "";
+        string operand;
+
         cout << "Please enter a rational number operations or (exit)" << endl;
         cout << "->";
         getline(cin, operand);
 
         if (operand == "exit"){
+            cout << "Thank you for using rational number calculator." << endl;
             break;
         }
-        else{
-            regex calcRegex(R"(-?\s*[0-9]+\s*[/]?\s*-?\s*[0-9]*\s*[\+\-\*\/]{1}\s*-?\s*[0-9]+\s*[/]?\s*-?\s*[0-9]*\s*)");
 
-            while (not regex_match(operand, regex(calcRegex))){
-                cout << "Invalid operand, Try again." << endl;
-                getline(cin, operand);
+        else{
+            regex calcRegex(R"([-+]?[0-9]+[/]?[-+]?[0-9]*\s{1}[\+\-\*\/]{1}\s{1}[-+]?[0-9]+[/]?[-+]?[0-9]*)");
+
+            if (not regex_match(operand, regex(calcRegex))){
+                cout << "Invalid operand, Try again." << endl << endl;
+                continue;
             }
 
             operand = strip(operand);
@@ -76,13 +161,17 @@ int main(){
             // First nominator sign
             int i = 0;
             if (operand[0] == '-'){
-                fTermSign = -1;
+                stTermSign = -1;
+                i++;
+            }
+            else if (operand[0] == '+'){
+                stTermSign = 1;
                 i++;
             }
 
             // First nominator
             while (isdigit(operand[i])){
-                fNominator += operand[i];
+                nominator1 += operand[i];
                 i++;
             }
 
@@ -90,22 +179,31 @@ int main(){
             if (operand[i] == '/'){
                 i++;
                 if (operand[i] == '-'){
-                    if (fTermSign == -1){
-                        fTermSign = 1;
+                    if (stTermSign == -1){
+                        stTermSign = 1;
                     }
                     else{
-                        fTermSign = -1;
+                        stTermSign = -1;
+                    }
+                    i++;
+                }
+                else if(operand[i] == '+'){
+                    if (stTermSign == -1){
+                        stTermSign = -1;
+                    }
+                    else {
+                        stTermSign = 1;
                     }
                     i++;
                 }
 
                 while(isdigit(operand[i])){
-                    fDenominator += operand[i];
+                    denominator1 += operand[i];
                     i++;
                 }
             }
             else{
-                fDenominator = "1";
+                denominator1 = "1";
             }
 
             // Operation
@@ -131,13 +229,17 @@ int main(){
 
             // Second nominator sign
             if (operand[i] == '-'){
-                sTermSign = -1;
+                ndTermSign = -1;
+                i++;
+            }
+            else if (operand[i] == '+'){
+                ndTermSign = 1;
                 i++;
             }
 
             // Second nominator
             while (isdigit(operand[i])){
-                sNominator += operand[i];
+                nominator2 += operand[i];
                 i++;
             }
 
@@ -145,64 +247,49 @@ int main(){
             if (operand[i] == '/'){
                 i++;
                 if (operand[i] == '-'){
-                    if (sTermSign == -1){
-                        sTermSign = 1;
+                    if (ndTermSign == -1){
+                        ndTermSign = 1;
                     }
                     else{
-                        sTermSign = -1;
+                        ndTermSign = -1;
+                    }
+                    i++;
+                }
+                else if (operand[i] == '+'){
+                    if (ndTermSign == -1){
+                        ndTermSign = -1;
+                    }
+                    else{
+                        ndTermSign = 1;
                     }
                     i++;
                 }
 
                 while(isdigit(operand[i])){
-                    sDenominator += operand[i];
+                    denominator2 += operand[i];
                     i++;
                 }
             }
             else{
-                sDenominator = "1";
+                denominator2 = "1";
             }
-
         }
-        if (operation == "*"){
-            int resultNominator, resultDinominator;
-            resultNominator = fTermSign * stoi(fNominator) * stoi(sNominator);
-            resultDinominator = sTermSign * stoi(fDenominator) * stoi(sDenominator);
-            for (int i = min(abs(resultNominator), abs(resultDinominator)); i > 1; i--){
-                if ((resultNominator % i == 0) and (resultDinominator % i == 0)){
-                    resultNominator = resultNominator / i;
-                    resultDinominator = resultDinominator / i;
-                    break;
-                }
-            }
-            cout << "result: " << resultNominator << "/" << resultDinominator << endl;
 
+        if (operation == "*"){
+            multiplication(stTermSign, ndTermSign, nominator1, denominator1, nominator2, denominator2);
         }
         else if (operation == "/"){
-            int resultNominator, resultDinominator;
-            resultNominator = fTermSign * stoi(fNominator) * stoi(sDenominator);
-            resultDinominator = sTermSign * stoi(fDenominator) * stoi(sNominator);
-            for (int i = min(abs(resultNominator), abs(resultDinominator)); i > 1; i--){
-                if ((resultNominator % i == 0) and (resultDinominator % i == 0)){
-                    resultNominator = resultNominator / i;
-                    resultDinominator = resultDinominator / i;
-                    break;
-                }
-            }
-            cout << "result: " << resultNominator << "/" << resultDinominator << endl;
-
+            division(stTermSign, ndTermSign, nominator1, denominator1, nominator2, denominator2);
         }
         else if (operation == "+"){
-            summation(fTermSign,sTermSign,fNominator,fDenominator,sNominator,sDenominator);
+            summation(stTermSign, ndTermSign, nominator1, denominator1, nominator2, denominator2);
 
         }
         else if (operation == "-"){
-            subtraction(fTermSign,sTermSign,fNominator,fDenominator,sNominator,sDenominator);
-            
+            subtraction(stTermSign, ndTermSign, nominator1, denominator1, nominator2, denominator2);
         }
         else
-        continue;
-
+            continue;
     }
 
     return 0;
