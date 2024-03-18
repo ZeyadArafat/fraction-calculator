@@ -1,3 +1,16 @@
+/*
+File: CS112_A2_T3_21_20230161_20230109_20230476.cpp
+Purpose: Fraction Calculator
+Authors:
+    Zeyad Mohamed Arafat - 20230161   s21
+    John Ayman Demian    - 20230109   s21   johnayman03@gmail.com
+    Youssef Ahmed Beshir - 20230476   s21   youssefahmedbeshir@gmail.com
+
+20230161 - Multiplication, division functions
+20230109 - Summation, subtraction functions
+20230476 - Regex expression, separated each term in the operand expression
+ */
+
 # include <bits/stdc++.h>
 
 using namespace std;
