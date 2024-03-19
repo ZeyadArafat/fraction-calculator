@@ -11,11 +11,11 @@ Authors:
 20230476 - Regex expression, separated each term in the operand expression
  */
 
-# include <bits/stdc++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
-
+// Function to strip whitespaces from a string
 string strip(const string& calc){
     string stripped;
     for (char i : calc){
@@ -26,7 +26,7 @@ string strip(const string& calc){
     return stripped;
 }
 
-
+// Function to perform addition of fractions
 void summation(int sign1, int sign2, const string& nominator1, const string& denominator1,
                const string& nominator2, const string& denominator2){
 
@@ -55,7 +55,7 @@ void summation(int sign1, int sign2, const string& nominator1, const string& den
     }
 }
 
-
+// Function to perform subtraction of fractions
 void subtraction(int sign1, int sign2, const string& nominator1, const string& denominator1,
                  const string& nominator2, const string& denominator2){
     int nominator, denominator ;
@@ -84,7 +84,7 @@ void subtraction(int sign1, int sign2, const string& nominator1, const string& d
     }
 }
 
-
+// Function to perform multiplication of fractions
 void multiplication(int sign1, int sign2, const string& nominator1, const string& denominator1,
                     const string& nominator2, const string& denominator2){
     int nominator, denominator;
@@ -113,7 +113,7 @@ void multiplication(int sign1, int sign2, const string& nominator1, const string
     }
 }
 
-
+// Function to perform division of fractions
 void division(int sign1, int sign2, const string& nominator1, const string& denominator1,
               const string& nominator2, const string& denominator2){
     int nominator, denominator;
@@ -142,12 +142,13 @@ void division(int sign1, int sign2, const string& nominator1, const string& deno
     }
 }
 
-
+// Main function
 int main(){
     int stTermSign = 1, ndTermSign = 1;
     string operation, nominator1, denominator1, nominator2, denominator2;
     cout << "|| FRACTION CALCULATOR ||" << endl << endl;
 
+    // Main loop for the calculator
     while (true){
         operation = "", nominator1 = "", denominator1 = "", nominator2 = "", denominator2 = "";
         string operand;
@@ -162,6 +163,7 @@ int main(){
         }
 
         else{
+            // Regular expression to validate the input
             regex calcRegex(R"([-+]?[0-9]+[/]?[-+]?[0-9]*\s{1}[\+\-\*\/]{1}\s{1}[-+]?[0-9]+[/]?[-+]?[0-9]*)");
 
             if (not regex_match(operand, regex(calcRegex))){
@@ -171,7 +173,7 @@ int main(){
 
             operand = strip(operand);
 
-            // First nominator sign
+            // Parsing the input expression
             int i = 0;
             if (operand[0] == '-'){
                 stTermSign = -1;
@@ -288,6 +290,7 @@ int main(){
             }
         }
 
+        // Perform the corresponding operation based on the input
         if (operation == "*"){
             multiplication(stTermSign, ndTermSign, nominator1, denominator1, nominator2, denominator2);
         }
@@ -296,7 +299,6 @@ int main(){
         }
         else if (operation == "+"){
             summation(stTermSign, ndTermSign, nominator1, denominator1, nominator2, denominator2);
-
         }
         else if (operation == "-"){
             subtraction(stTermSign, ndTermSign, nominator1, denominator1, nominator2, denominator2);
@@ -307,3 +309,4 @@ int main(){
 
     return 0;
 }
+
